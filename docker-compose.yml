@@ -1,0 +1,13 @@
+socket-rf-transmitter:
+    container_name: smart-rf-transmitter
+    image: rf_transmitter:v1 
+    stdin_open: true
+    tty: true
+    environment:
+      - TZ=Europe/London
+#    devices:
+#      - "/dev/gpiomem:/dev/gpiomem"
+    ports:
+      - 60000:60000
+    privileged: true
+    restart: unless-stopped
