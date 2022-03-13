@@ -24,7 +24,9 @@ the same network as the Raspberry Pi running Node-Red.
 
 # Node Red Flows
 The general flow used for NodeRed is shown below:
+
 ![Node Red Flow](docs/Node Red Flow.png)
+
 Each Plug is set up as an Alexa-Home Node which then has two functions, turnOn and turnOff requests, which then feed into 
 the function blocks triggering the TCP socket call to turn on and off the plugs.
 
