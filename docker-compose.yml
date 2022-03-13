@@ -1,4 +1,5 @@
-socket-rf-transmitter:
+services:
+  socket-rf-transmitter:
     container_name: smart-rf-transmitter
     image: rf_transmitter:v1 
     stdin_open: true
