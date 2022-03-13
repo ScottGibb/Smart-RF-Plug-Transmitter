@@ -1,4 +1,4 @@
-#RF Plugs Transmitter
+# Converting Old RF Plugs to Smart Plugs with NodeRed and Docker
 
 # Summary
 This project contains a system in which regular RF plugs can be used alongside smart plugs. This allows users to reuse
