@@ -1,20 +1,20 @@
-# Converting Old RF Plugs to Smart Plugs with NodeRed and Docker
+# Converting Old RF Plugs to Smart Plugs with Node-RED and Docker
 
 # Summary
 This project contains a system in which regular RF plugs can be used alongside smart plugs. This allows users to reuse
 their old RF plugs as new smart plugs. Preventing e-waste and saving money. To do this, the following systems are needed:
 - Smart Home Agent (Alexa, Google Home)
-- [NodeRed](https://nodered.org/)
+- [Node-RED](https://nodered.org/)
 - Raspberry Pi
 
 # Architecture
-The system works using a Raspberry Pi as the central control system, which is running both NodeRed and the 
+The system works using a Raspberry Pi as the central control system, which is running both Node-RED and the 
 SocketTransmitter python script. These are running in their own docker container to allow for better modularisation.
 
 ![System Architecture](docs/System Diagram.png)
 
 The Alexa devices are connected over the network using any IP link. Everything should work as long as the devices are on 
-the same network as the Raspberry Pi running Node-Red.
+the same network as the Raspberry Pi running Node-RED.
 
 - The Raspberry Pi is then connected to the 433MHz Transmitter module via the 5V, GND and Transmit pins.
 - The flows attached to this repo are then used to communicate with the SocketTransmitter via TCP. This then sends the 
@@ -22,8 +22,8 @@ the same network as the Raspberry Pi running Node-Red.
 - 433MHz Transmitter.
 - The system is built such that when the SocketTransmitter container is up and running, it never needs to be taken down.
 
-# Node Red Flows
-The general flow used for NodeRed is shown below:
+# Node-RED Flows
+The general flow used for Node-RED is shown below:
 
 ![Node Red Flow](docs/Node Red Flow.png)
 
@@ -45,7 +45,7 @@ The parts required for the project are listed below:
 
 For the project to work, the following software is needed:
 
-- [Node Red](https://nodered.org/)
+- [Node-RED](https://nodered.org/)
 - [node-red-contrib-alexa-home-skill](https://flows.nodered.org/node/node-red-contrib-alexa-home-skill)
 - [Portainer](https://www.portainer.io/)
 - [Docker](https://www.docker.com/)
