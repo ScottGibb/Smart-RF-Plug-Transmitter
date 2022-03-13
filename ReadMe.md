@@ -2,13 +2,24 @@
 
 # Summary
 This project contains a system in which regular RF plugs can be used alongside smart plugs. This allows the user to reuse
-their old RF plugs and as new smart plugs. Preventing e-waste and saving money.
+their old RF plugs and as new smart plugs. Preventing e-waste and saving money. In order to do this the following systems are needed.
+- Smart Home Agent (Alexa, Google Home)
+- [NodeRed](https://nodered.org/)
+- Raspberry Pi
 
 # Architecture
-The system works using a Raspberry Pi as the basis and using an RF transmitter and a single GPIO Pin.
+The system works using a Raspberry Pi as the central control system which is running both NodeRed and the 
+SocketTransmitter python script. Both of these are running in their own docker container to allow for better modularisation.
 
+![System Architecture](docs/System Diagram.png)
 
+The Alexa devices are connected over the network using any IP link, that could be simply through a WiFi link. 
+As long as the devices are on the same network.
 
+- The Raspberry Pi is then connected to the 433MHz Transmitter module via connecting the 5V, GND and Transmit pin.
+- The flows attached to this repo are then use to communicate with the SocketTransmitter via TCP which then send the 
+required bit stream signal to the script, which then is used to turn the plugs on and off.
+- The system is built such that, when the SocketTransmitter container is up and running, it never needs to be taken down.
 
 # Parts
 The parts required for the project are listed below:
