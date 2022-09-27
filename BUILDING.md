@@ -15,7 +15,7 @@ To scan the frequency that the plug uses, five bits of equipment are needed:
 
 The diagram below describes visually how the monitoring system should be set up:
 
-![Scanning System Diagram](docs/Scanning System Diagram.png)
+![Scanning System Diagram](docs/Scanning%20System%20Diagram.png)
 
 Once this architecture is implemented, each button on the remote should be pressed one after another, and the waveform 
 captured using the Signal Analyser software of your choice. Once captured, it should be converted into a BitString and 
