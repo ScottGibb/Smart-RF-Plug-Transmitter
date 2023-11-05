@@ -2,6 +2,8 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Static Analysis](https://github.com/ScottGibb/LED-Strip-Controller-Octoprint/actions/workflows/Static%20Analysis.yaml/badge.svg)](https://github.com/ScottGibb/LED-Strip-Controller-Octoprint/actions/workflows/Static%20Analysis.yaml)
 
+![Languages and Tools](docs/Languages%20and%20Tools.png)
+
 ## Summary
 
 This project contains a system in which regular RF plugs can be used alongside smart plugs. This allows users to reuse
