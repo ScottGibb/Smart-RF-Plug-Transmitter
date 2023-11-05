@@ -59,7 +59,6 @@ def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, tra
                     message = message.strip()
                     strings = message.split(':')
                     log.info("Decoding String")
-                    log.info(message)
                     try:
                         transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),transmit_pin)
                     except IndexError:
@@ -74,7 +73,7 @@ def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, tra
             GPIO.cleanup()
 
 
-def transmit_rf_code(code, short_delay, long_delay, trsmt_pin:int) -> None:
+def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin:int) -> None:
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
