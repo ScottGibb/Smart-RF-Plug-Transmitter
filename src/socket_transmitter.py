@@ -20,7 +20,7 @@ RETRY_TIME = 0.001  # s
 log = logging.getLogger('Transmitter Logger')
 
 
-def main():
+def main(ip_address: str = IP_ADDRESS, port_num:int = PORT_NUM, transmit_pin:int = TRANSMIT_PIN)-> None:
     """
     The main application of the program
     """
@@ -32,7 +32,7 @@ def main():
 
         while True:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.bind((IP_ADDRESS, PORT_NUM))
+            sock.bind((ip_address, port_num))
             sock.listen()
             log.info("Listening on Port 60000")
             conn, _ = sock.accept()
@@ -61,7 +61,7 @@ def main():
         GPIO.cleanup()
 
 
-def transmit_rf_code(code, short_delay, long_delay):
+def transmit_rf_code(code, short_delay, long_delay) -> None:
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
@@ -91,7 +91,7 @@ def transmit_rf_code(code, short_delay, long_delay):
     time.sleep(0.5)
 
 
-def setup_logging():
+def setup_logging() -> None:
     """
     Sets up the Logger object log for use throughout the script
     """
@@ -103,4 +103,12 @@ def setup_logging():
 
 
 if __name__ == '__main__':
-    main()
+
+    arguments = sys.argv
+    if len(arguments)>1:
+        ip_address = str(arguments[1])
+        port_num = str(arguments[2])
+        transmit_pin = str(arguments[3])
+        main(ip_address, port_num)
+    else:
+        main()
