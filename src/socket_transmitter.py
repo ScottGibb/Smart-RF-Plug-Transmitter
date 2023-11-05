@@ -24,41 +24,42 @@ def main(ip_addr: str = IP_ADDRESS, port_num:int = PORT_NUM, trsmit_pin:int = TR
     """
     The main application of the program
     """
-    sock = None
-    try:
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(trsmit_pin, GPIO.OUT)
+    while True:
+        sock = None
+        try:
+            GPIO.setmode(GPIO.BOARD)
+            GPIO.setup(trsmit_pin, GPIO.OUT)
 
-        while True:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.bind((ip_addr, port_num))
-            sock.listen()
-            log.info("Listening on Port: {0} at {1}".format(port_num,ip_addr))
-            log.info("Transmitting on Pin: {0}".format(trsmit_pin))
-            conn, _ = sock.accept()
-            log.info("Accepted Connection")
-            sock_file = conn.makefile()
-
-            # Decode Message and perform selected operation
             while True:
-                message = sock_file.readline()
-                log.debug(message)
-                message = message.strip()
-                strings = message.split(':')
-                log.info("Decoding String")
-                log.info(message)
-                try:
-                    transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),trsmit_pin)
-                except IndexError:
-                    logging.error("Received malformed data packet, abandoning socket")
-                    sock.shutdown(1)
-                    sock.close()
-                    break
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.bind((ip_addr, port_num))
+                sock.listen()
+                log.info("Listening on Port: {0} at {1}".format(port_num,ip_addr))
+                log.info("Transmitting on Pin: {0}".format(trsmit_pin))
+                conn, _ = sock.accept()
+                log.info("Accepted Connection")
+                sock_file = conn.makefile()
+
+                # Decode Message and perform selected operation
+                while True:
+                    message = sock_file.readline()
+                    log.debug(message)
+                    message = message.strip()
+                    strings = message.split(':')
+                    log.info("Decoding String")
+                    log.info(message)
+                    try:
+                        transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),trsmit_pin)
+                    except IndexError:
+                        logging.error("Received malformed data packet, abandoning socket")
+                        sock.shutdown(1)
+                        sock.close()
+                        break
 
 
-    finally:
-        sock.close()
-        GPIO.cleanup()
+        finally:
+            sock.close()
+            GPIO.cleanup()
 
 
 def transmit_rf_code(code, short_delay, long_delay, trsmt_pin:int) -> None:
