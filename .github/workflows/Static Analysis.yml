@@ -57,9 +57,8 @@ jobs:
         - name: Run yamllint
           run: |
             echo "Checking YAML files"
-            yamllint -c .yamllint.yaml .github/**/**.yaml
-            yamllint -c .yamllint.yaml .github/**/**.yml
-            yamllint -c .yamllint.yaml **.yaml
+            yamllint -c .yamllint.yml .github/**/**.yml
+            yamllint -c .yamllint.yml **.yml
 
 
             
