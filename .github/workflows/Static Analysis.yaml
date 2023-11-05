@@ -1,0 +1,60 @@
+---
+    # This is the Static Analysis workflow, in which we check the code for errors and warnings.
+    name: Static Analysis
+    
+    on: [push]
+    
+    jobs:
+    
+        Shell_Check:
+            name: Shell Check
+            runs-on: ubuntu-latest
+            steps:
+                - name: Checkout
+                  uses: actions/checkout@v2
+                - name: Install Dependencies
+                  run: sudo apt-get install -y shellcheck
+                - name: Shell Check
+                  run: |
+                    echo "Checking shell scripts"
+                    shellcheck **/*.sh
+    
+        Markdown_Lint_Check:
+            name: Markdown Lint Check
+            runs-on: ubuntu-latest
+            steps:
+                - name: Install markdownlint-cli
+                  run: npm install -g markdownlint-cli
+                - name: Checkout code
+                  uses: actions/checkout@v2
+                - name: Run markdownlint
+                  run: |
+                    echo "Checking Markdown files"
+                    markdownlint '**/*.md'
+    
+        Python_Lint_Check:
+            name: Python Lint Check
+            runs-on: ubuntu-latest
+            steps:
+                - name: Install pylint
+                  run: |
+                    pip install pylint
+                - name: Checkout code
+                  uses: actions/checkout@v2
+                - name: Run pylint
+                  run: |
+                    echo "Checking Python files with pylint"
+                    pylint --fail-under=9 **/**/*.py
+    
+        YAML_Lint_Check:
+            name: YAML Lint Check
+            runs-on: ubuntu-latest
+            steps:
+                - name: Install yamllint
+                  run: sudo apt install yamllint
+                - name: Checkout code
+                  uses: actions/checkout@v2
+                - name: Run yamllint
+                  run: |
+                    echo "Checking YAML files"
+                    yamllint -c .yamllint.yaml .github/**/**.yaml
