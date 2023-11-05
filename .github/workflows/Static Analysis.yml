@@ -1,11 +1,11 @@
 ---
 # This is the Static Analysis workflow, in which we check the code for errors and warnings.
 name: Static Analysis
- 
+
 on: [push]
 
 jobs:
-    
+
   # Shell_Check:
   #     name: Shell Check
   #     runs-on: ubuntu-latest
@@ -18,7 +18,7 @@ jobs:
   #           run: |
   #             echo "Checking shell scripts"
   #             shellcheck **/*.sh
-    
+
   Markdown_Lint_Check:
     name: Markdown Lint Check
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "Checking Markdown files"
           markdownlint '**/*.md'
-    
+
   Python_Lint_Check:
     name: Python Lint Check
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "Checking Python files with pylint"
           pylint --fail-under=9 **/**/*.py
-    
+
   YAML_Lint_Check:
     name: YAML Lint Check
     runs-on: ubuntu-latest
