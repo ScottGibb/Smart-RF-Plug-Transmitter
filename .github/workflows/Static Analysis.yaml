@@ -3,6 +3,7 @@
     name: Static Analysis
     
     on: [push]
+
     
     jobs:
     
