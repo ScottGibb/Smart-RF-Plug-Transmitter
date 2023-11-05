@@ -24,7 +24,7 @@ def main():
     """
     The main application of the program
     """
-    global sock
+    sock = None
     try:
         setup_logging()
         GPIO.setmode(GPIO.BOARD)
@@ -35,20 +35,20 @@ def main():
             sock.bind((IP_ADDRESS, PORT_NUM))
             sock.listen()
             log.info("Listening on Port 60000")
-            conn, addr = sock.accept()
+            conn, _ = sock.accept()
             log.info("Accepted Connection")
-            sockFile = conn.makefile()
+            sock_file = conn.makefile()
 
             # Decode Message and perform selected operation
             while True:
-                message = sockFile.readline()
+                message = sock_file.readline()
                 log.debug(message)
                 message = message.strip()
                 strings = message.split(':')
                 log.info("Decoding String")
-                print(message)
+                log.info(message)
                 try:
-                    transmit_rf_code(strings[0], float(strings[1]), float(strings[2]), logging)
+                    transmit_rf_code(strings[0], float(strings[1]), float(strings[2]))
                 except IndexError:
                     logging.error("Received malformed data packet, abandoning socket")
                     sock.shutdown(1)
@@ -61,7 +61,7 @@ def main():
         GPIO.cleanup()
 
 
-def transmit_rf_code(code, short_delay, long_delay, logging):
+def transmit_rf_code(code, short_delay, long_delay):
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
@@ -72,7 +72,7 @@ def transmit_rf_code(code, short_delay, long_delay, logging):
     """
     log.info("Transmitting")
     for t in range(NUM_ATTEMPTS):
-        log.debug("Attempt: " + str(t))
+        log.debug("Attempt: %s", str(t))
         for i in code:
             if i == '1':
                 GPIO.output(TRANSMIT_PIN, 1)
@@ -85,7 +85,7 @@ def transmit_rf_code(code, short_delay, long_delay, logging):
                 GPIO.output(TRANSMIT_PIN, 0)
                 time.sleep(short_delay)
             else:
-                logging.critical("Received invalid Code: " + code)
+                log.critical("Received invalid Code: %s", str(code))
         GPIO.output(TRANSMIT_PIN, 0)
         time.sleep(RETRY_TIME)
     time.sleep(0.5)
@@ -96,9 +96,9 @@ def setup_logging():
     Sets up the Logger object log for use throughout the script
     """
     log.setLevel(logging.DEBUG)
-    format = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    fmt = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     ch = logging.StreamHandler(sys.stdout)
-    ch.setFormatter(format)
+    ch.setFormatter(fmt)
     log.addHandler(ch)
 
 
