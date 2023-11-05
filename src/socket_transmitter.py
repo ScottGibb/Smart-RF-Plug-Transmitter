@@ -15,7 +15,7 @@ PORT_NUM = 60000
 
 # RF transmission Variables
 NUM_ATTEMPTS = 10
-TRANSMIT_PIN = 10
+TRANSMIT_PIN = 11
 RETRY_TIME = 0.001  # s
 log = logging.getLogger('Transmitter Logger')
 

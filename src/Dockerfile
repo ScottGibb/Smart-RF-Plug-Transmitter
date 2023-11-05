@@ -7,7 +7,7 @@ RUN apt-get install python3-pip -y
 COPY requirements.txt /
 RUN pip3 install -r requirements.txt --break-system-package
 
-ARG TSMT_PIN_NUMBER=10
+ARG TSMT_PIN_NUMBER=11
 COPY *.py /
 
 EXPOSE 60000

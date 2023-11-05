@@ -6,7 +6,7 @@ services:
     build:
       context: ./src
       args:
-        TSMT_PIN_NUMBER: 10
+        TSMT_PIN_NUMBER: 11
 
     container_name: smart-rf-transmitter
     # image: rf_transmitter:v1
