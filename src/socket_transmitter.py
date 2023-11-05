@@ -1,6 +1,7 @@
 """
 Simple Radio Transmitter Script to control RF Plugs
 """
+import argparse
 import logging
 import socket
 
@@ -10,17 +11,28 @@ import time
 
 from RPi import GPIO
 
-IP_ADDRESS = "0.0.0.0"
-PORT_NUM = 60000
+DEFAULT_IP_ADDRESS = "0.0.0.0"
+DEFAULT_PORT_NUM = 60000
 
 # RF transmission Variables
 NUM_ATTEMPTS = 10
-TRANSMIT_PIN = 11
+DEFAULT_TRANSMIT_PIN = 11
 RETRY_TIME = 0.001  # s
 log = logging.getLogger('Transmitter Logger')
 
 
-def main(ip_addr: str = IP_ADDRESS, port_num:int = PORT_NUM, trsmit_pin:int = TRANSMIT_PIN)-> None:
+parser = argparse.ArgumentParser(
+    prog="RF Transmitter",
+    description="TCP RF Transmitter program, that transmits the byte sent over tcp via RF",
+    epilog="This could be of more help"
+)
+parser.add_argument("-p", "--port_number",default=DEFAULT_PORT_NUM, type=int, required=False, help="Port number")
+parser.add_argument("-ip", "--ip_address",default= DEFAULT_IP_ADDRESS,type=str, required=False, help="IP address")
+parser.add_argument("-pin", "--pin_number",default=DEFAULT_TRANSMIT_PIN, type=int, required=False, help="TF Transmitter Pin number")
+args = parser.parse_args()
+
+
+def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, transmit_pin:int = DEFAULT_TRANSMIT_PIN)-> None:
     """
     The main application of the program
     """
@@ -28,14 +40,14 @@ def main(ip_addr: str = IP_ADDRESS, port_num:int = PORT_NUM, trsmit_pin:int = TR
         sock = None
         try:
             GPIO.setmode(GPIO.BOARD)
-            GPIO.setup(trsmit_pin, GPIO.OUT)
+            GPIO.setup(transmit_pin, GPIO.OUT)
 
             while True:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.bind((ip_addr, port_num))
                 sock.listen()
                 log.info("Listening on Port: {0} at {1}".format(port_num,ip_addr))
-                log.info("Transmitting on Pin: {0}".format(trsmit_pin))
+                log.info("Transmitting on Pin: {0}".format(transmit_pin))
                 conn, _ = sock.accept()
                 log.info("Accepted Connection")
                 sock_file = conn.makefile()
@@ -49,7 +61,7 @@ def main(ip_addr: str = IP_ADDRESS, port_num:int = PORT_NUM, trsmit_pin:int = TR
                     log.info("Decoding String")
                     log.info(message)
                     try:
-                        transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),trsmit_pin)
+                        transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),transmit_pin)
                     except IndexError:
                         logging.error("Received malformed data packet, abandoning socket")
                         sock.shutdown(1)
@@ -106,13 +118,5 @@ def setup_logging() -> None:
 if __name__ == '__main__':
     setup_logging()
     log.info("RF Smart Transmitter Booting")
-    arguments = sys.argv
-    if len(arguments)>1:
-        log.info("Arguments provided during call of script")
-        ip_address = str(arguments[1])
-        port_num = int(arguments[2])
-        transmit_pin = int(arguments[3])
-        main(ip_address, port_num)
-    else:
-        log.info("No arguments provided, using defaults")
-        main()
+    log.info("Arguments Received:\n {0}".format(args))
+    main(args.ip_address, args.port_number, args.pin_number)
