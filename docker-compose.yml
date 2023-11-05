@@ -11,7 +11,7 @@ services:
     tty: true
     environment:
       - TZ=Europe/London
-      - TSMT_PIN_NUMBER= 11
+      - TSMT_PIN_NUMBER= 13
 #    devices:
 #      - "/dev/gpiomem:/dev/gpiomem"
     ports:
