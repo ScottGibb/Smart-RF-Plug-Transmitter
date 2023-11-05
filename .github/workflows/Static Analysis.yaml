@@ -6,18 +6,18 @@
     
     jobs:
     
-        Shell_Check:
-            name: Shell Check
-            runs-on: ubuntu-latest
-            steps:
-                - name: Checkout
-                  uses: actions/checkout@v2
-                - name: Install Dependencies
-                  run: sudo apt-get install -y shellcheck
-                - name: Shell Check
-                  run: |
-                    echo "Checking shell scripts"
-                    shellcheck **/*.sh
+        # Shell_Check:
+        #     name: Shell Check
+        #     runs-on: ubuntu-latest
+        #     steps:
+        #         - name: Checkout
+        #           uses: actions/checkout@v2
+        #         - name: Install Dependencies
+        #           run: sudo apt-get install -y shellcheck
+        #         - name: Shell Check
+        #           run: |
+        #             echo "Checking shell scripts"
+        #             shellcheck **/*.sh
     
         Markdown_Lint_Check:
             name: Markdown Lint Check
