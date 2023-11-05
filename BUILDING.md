@@ -26,12 +26,9 @@ Once all this information is gathered, inside Node-RED, the function blocks will
 
 ## Setting Up the RF Transmitter Docker Container
 
-For setting up the Docker Container, the Dockerfile is used to first create the image, and then docker-compose is used to launch the container:
+The docker container is now built using docker compose as this means all the control is done using docker compose. This allows the simple shell script command to be used
 
 ```console
- cd src
- docker build -t rf_transmitter:v1 .
- cd ..
  docker-compose up -d
 ```
 

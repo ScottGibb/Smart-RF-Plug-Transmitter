@@ -20,22 +20,21 @@ RETRY_TIME = 0.001  # s
 log = logging.getLogger('Transmitter Logger')
 
 
-def main(ip_address: str = IP_ADDRESS, port_num:int = PORT_NUM, transmit_pin:int = TRANSMIT_PIN)-> None:
+def main(ip_addr: str = IP_ADDRESS, port_num:int = PORT_NUM, trsmit_pin:int = TRANSMIT_PIN)-> None:
     """
     The main application of the program
     """
     sock = None
     try:
-        setup_logging()
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(transmit_pin, GPIO.OUT)
+        GPIO.setup(trsmit_pin, GPIO.OUT)
 
         while True:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.bind((ip_address, port_num))
+            sock.bind((ip_addr, port_num))
             sock.listen()
-            log.info("Listening on Port: "+str(port_num) + "at "+ ip_address)
-            log.info("Transmitting on Pin: "+str(transmit_pin))
+            log.info("Listening on Port: {0} at {1}",port_num,ip_addr)
+            log.info("Transmitting on Pin: {0}",trsmit_pin)
             conn, _ = sock.accept()
             log.info("Accepted Connection")
             sock_file = conn.makefile()
@@ -49,7 +48,7 @@ def main(ip_address: str = IP_ADDRESS, port_num:int = PORT_NUM, transmit_pin:int
                 log.info("Decoding String")
                 log.info(message)
                 try:
-                    transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),transmit_pin)
+                    transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),trsmit_pin)
                 except IndexError:
                     logging.error("Received malformed data packet, abandoning socket")
                     sock.shutdown(1)
@@ -62,7 +61,7 @@ def main(ip_address: str = IP_ADDRESS, port_num:int = PORT_NUM, transmit_pin:int
         GPIO.cleanup()
 
 
-def transmit_rf_code(code, short_delay, long_delay, transmit_pin:int) -> None:
+def transmit_rf_code(code, short_delay, long_delay, trsmt_pin:int) -> None:
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
@@ -76,18 +75,18 @@ def transmit_rf_code(code, short_delay, long_delay, transmit_pin:int) -> None:
         log.debug("Attempt: %s", str(t))
         for i in code:
             if i == '1':
-                GPIO.output(transmit_pin, 1)
+                GPIO.output(trsmt_pin, 1)
                 time.sleep(short_delay)
-                GPIO.output(transmit_pin, 0)
+                GPIO.output(trsmt_pin, 0)
                 time.sleep(long_delay)
             elif i == '0':
-                GPIO.output(transmit_pin, 1)
+                GPIO.output(trsmt_pin, 1)
                 time.sleep(long_delay)
-                GPIO.output(transmit_pin, 0)
+                GPIO.output(trsmt_pin, 0)
                 time.sleep(short_delay)
             else:
                 log.critical("Received invalid Code: %s", str(code))
-        GPIO.output(transmit_pin, 0)
+        GPIO.output(trsmt_pin, 0)
         time.sleep(RETRY_TIME)
     time.sleep(0.5)
 
@@ -104,12 +103,15 @@ def setup_logging() -> None:
 
 
 if __name__ == '__main__':
-
+    setup_logging()
+    log.info("RF Smart Transmitter Booting")
     arguments = sys.argv
     if len(arguments)>1:
+        log.info("Arguments provided during call of script")
         ip_address = str(arguments[1])
-        port_num = str(arguments[2])
-        transmit_pin = str(arguments[3])
+        port_num = int(arguments[2])
+        transmit_pin = int(arguments[3])
         main(ip_address, port_num)
     else:
+        log.info("No arguments provided, using defaults")
         main()
