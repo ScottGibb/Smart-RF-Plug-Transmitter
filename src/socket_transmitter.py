@@ -28,13 +28,14 @@ def main(ip_address: str = IP_ADDRESS, port_num:int = PORT_NUM, transmit_pin:int
     try:
         setup_logging()
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(TRANSMIT_PIN, GPIO.OUT)
+        GPIO.setup(transmit_pin, GPIO.OUT)
 
         while True:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.bind((ip_address, port_num))
             sock.listen()
-            log.info("Listening on Port 60000")
+            log.info("Listening on Port: "+str(port_num) + "at "+ ip_address)
+            log.info("Transmitting on Pin: "+str(transmit_pin))
             conn, _ = sock.accept()
             log.info("Accepted Connection")
             sock_file = conn.makefile()
@@ -48,7 +49,7 @@ def main(ip_address: str = IP_ADDRESS, port_num:int = PORT_NUM, transmit_pin:int
                 log.info("Decoding String")
                 log.info(message)
                 try:
-                    transmit_rf_code(strings[0], float(strings[1]), float(strings[2]))
+                    transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),transmit_pin)
                 except IndexError:
                     logging.error("Received malformed data packet, abandoning socket")
                     sock.shutdown(1)
@@ -61,7 +62,7 @@ def main(ip_address: str = IP_ADDRESS, port_num:int = PORT_NUM, transmit_pin:int
         GPIO.cleanup()
 
 
-def transmit_rf_code(code, short_delay, long_delay) -> None:
+def transmit_rf_code(code, short_delay, long_delay, transmit_pin:int) -> None:
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
@@ -75,18 +76,18 @@ def transmit_rf_code(code, short_delay, long_delay) -> None:
         log.debug("Attempt: %s", str(t))
         for i in code:
             if i == '1':
-                GPIO.output(TRANSMIT_PIN, 1)
+                GPIO.output(transmit_pin, 1)
                 time.sleep(short_delay)
-                GPIO.output(TRANSMIT_PIN, 0)
+                GPIO.output(transmit_pin, 0)
                 time.sleep(long_delay)
             elif i == '0':
-                GPIO.output(TRANSMIT_PIN, 1)
+                GPIO.output(transmit_pin, 1)
                 time.sleep(long_delay)
-                GPIO.output(TRANSMIT_PIN, 0)
+                GPIO.output(transmit_pin, 0)
                 time.sleep(short_delay)
             else:
                 log.critical("Received invalid Code: %s", str(code))
-        GPIO.output(TRANSMIT_PIN, 0)
+        GPIO.output(transmit_pin, 0)
         time.sleep(RETRY_TIME)
     time.sleep(0.5)
 
