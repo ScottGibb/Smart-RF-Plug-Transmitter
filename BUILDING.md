@@ -29,7 +29,9 @@ Once all this information is gathered, inside Node-RED, the function blocks will
 For setting up the Docker Container, the Dockerfile is used to first create the image, and then docker-compose is used to launch the container:
 
 ```console
+ cd src
  docker build -t rf_transmitter:v1 .
+ cd ..
  docker-compose up -d
 ```
 

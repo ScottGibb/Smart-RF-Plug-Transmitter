@@ -1,7 +1,10 @@
+---
+# This is A sample Docker Compose that can be used to build the RF Controller Web Stack, it relies on the docker image being built first
+
 services:
   socket-rf-transmitter:
     container_name: smart-rf-transmitter
-    image: rf_transmitter:v1 
+    image: rf_transmitter:v1
     stdin_open: true
     tty: true
     environment:
