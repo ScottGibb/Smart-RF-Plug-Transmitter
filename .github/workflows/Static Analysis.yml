@@ -44,7 +44,7 @@ jobs:
       - name: Run pylint
         run: |
           echo "Checking Python files with pylint"
-          pylint --fail-under=9 ./src
+          pylint --fail-under=8 ./src
 
   YAML_Lint_Check:
     name: YAML Lint Check

@@ -569,7 +569,7 @@ ignore-none=yes
 ignore-on-opaque-inference=yes
 
 # List of symbolic message names to ignore for Mixin members.
-ignored-checks-for-mixins=no-member,
+ignored-checks-for-mixins=
                           not-async-context-manager,
                           not-context-manager,
                           attribute-defined-outside-init

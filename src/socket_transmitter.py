@@ -46,8 +46,8 @@ def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, tra
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.bind((ip_addr, port_num))
                 sock.listen()
-                log.info("Listening on Port: {0} at {1}".format(port_num,ip_addr))
-                log.info("Transmitting on Pin: {0}".format(transmit_pin))
+                log.info(f"Listening on Port: {port_num} at {ip_addr}")
+                log.info(f"Transmitting on Pin: {transmit_pin}")
                 conn, _ = sock.accept()
                 log.info("Accepted Connection")
                 sock_file = conn.makefile()
@@ -84,7 +84,7 @@ def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin
     """
     log.info("Transmitting")
     for t in range(NUM_ATTEMPTS):
-        log.debug("Attempt: %s", str(t))
+        log.debug(f"Attempt: {t}")
         for i in code:
             if i == '1':
                 GPIO.output(trsmt_pin, 1)
@@ -97,7 +97,7 @@ def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin
                 GPIO.output(trsmt_pin, 0)
                 time.sleep(short_delay)
             else:
-                log.critical("Received invalid Code: %s", str(code))
+                log.critical(("Received invalid Code: %s", str(code)))
         GPIO.output(trsmt_pin, 0)
         time.sleep(RETRY_TIME)
     time.sleep(0.5)
@@ -117,5 +117,5 @@ def setup_logging() -> None:
 if __name__ == '__main__':
     setup_logging()
     log.info("RF Smart Transmitter Booting")
-    log.info("Arguments Received:\n {0}".format(args))
+    log.info(f"Arguments Received:\n ,{args}")
     main(args.ip_address, args.port_number, args.pin_number)
