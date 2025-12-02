@@ -1,0 +1,11 @@
+[project]
+name = "smart-rf-plug-transmitter"
+version = "0.1.0"
+description = "A Python Project for Transmitting Signals to Smart RF Plugs using a TCP connection"
+readme = "README.md"
+license = { file = "../LICENSE" }
+requires-python = ">=3.14"
+dependencies = [
+    "rpi.gpio>=0.7.1; sys_platform == 'linux'"
+
+]
