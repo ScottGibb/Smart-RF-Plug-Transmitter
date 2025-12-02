@@ -1,4 +1,3 @@
-
 {
   "[markdown]": {
     "editor.formatOnSave": true,
@@ -15,9 +14,6 @@
   "[python]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "charliermarsh.ruff"
-  }
-    ,
-    "conventionalCommits.scopes": [
-        "ci"
-    ]
+  },
+  "conventionalCommits.scopes": ["ci"]
 }
