@@ -12,8 +12,8 @@ services:
     environment:
       - TZ=Europe/London
       - TSMT_PIN_NUMBER= 13
-#    devices:
-#      - "/dev/gpiomem:/dev/gpiomem"
+    #    devices:
+    #      - "/dev/gpiomem:/dev/gpiomem"
     ports:
       - 60000:60000
     privileged: true
