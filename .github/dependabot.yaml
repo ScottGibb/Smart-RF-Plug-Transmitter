@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-    directory: "/**/*"
+    directory: "/"
     schedule:
       interval: "weekly"
     commit-message:
@@ -14,7 +14,7 @@ updates:
       include: scope
 
   - package-ecosystem: "docker-compose"
-    directory: "/""
+    directory: "/"
     schedule:
       interval: "weekly"
     commit-message:
@@ -22,7 +22,7 @@ updates:
       include: scope
 
   - package-ecosystem: "docker"
-    directory: "/**"
+    directory: "/"
     schedule:
       interval: "weekly"
     commit-message:
@@ -30,7 +30,7 @@ updates:
       include: scope
 
   - package-ecosystem: "uv"
-    directory: "/**"
+    directory: "/socket_transmitter"
     schedule:
       interval: "weekly"
     commit-message:
