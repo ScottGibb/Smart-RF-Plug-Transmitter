@@ -1,1 +1,3 @@
 .idea
+megalinter-reports/
+.venv
