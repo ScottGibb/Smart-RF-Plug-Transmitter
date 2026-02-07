@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.2.0...v0.2.1) (2026-02-07)
+
+
+### Bug Fixes
+
+* uv docker image does not have arm support ([b13dcae](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/b13dcae83902ad13f2720e027786e9adf39a7ef8))
+
 ## [0.2.0](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.1.0...v0.2.0) (2026-02-07)
 
 ### Features
