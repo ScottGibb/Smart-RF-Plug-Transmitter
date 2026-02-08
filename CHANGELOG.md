@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.2.1...v0.2.2) (2026-02-08)
+
+
+### Bug Fixes
+
+* Change Dependabot directory for Docker updates ([0bf8284](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/0bf82849304ab9313338bffa7d7ef64c78daa2b5))
+
 ## [0.2.1](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.2.0...v0.2.1) (2026-02-07)
 
 
