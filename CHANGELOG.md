@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.2.2...v0.3.0) (2026-03-08)
+
+
+### Features
+
+* add docker compose linter ([3b70a73](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/3b70a73d486b03c67790e6903edf3e2303fa33b1))
+
 ## [0.2.2](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.2.1...v0.2.2) (2026-02-08)
 
 ### Bug Fixes
