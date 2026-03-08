@@ -2,7 +2,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![MegaLinter](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/actions/workflows/mega-linter.yaml/badge.svg)](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/actions/workflows/mega-linter.yaml)
 
-![Languages and Tools](docs/Languages%20and%20Tools.png)
+![Languages and Tools](docs/languages_and_tools.drawio.svg)
 
 ## Summary
 
@@ -17,7 +17,7 @@ their old RF plugs as new smart plugs. Preventing e-waste and saving money. To d
 
 The system works using a Raspberry Pi as the central control system, which is running both Node-RED and the SocketTransmitter python script. These are running in their own docker container to allow for better modularisation.
 
-![System Architecture](docs/System%20Diagram.png)
+![System Architecture](docs/architecture.drawio.svg)
 
 The Alexa devices are connected over the network using any IP link. Everything should work as long as the devices are on the same network as the Raspberry Pi running Node-RED.
 
@@ -29,7 +29,7 @@ The Alexa devices are connected over the network using any IP link. Everything s
 
 The general flow used for Node-RED is shown below:
 
-![Node Red Flow](docs/Node%20Red%20Flow.PNG)
+![Node Red Flow](docs/node_red_flow.png)
 
 Each Plug is set up as an Alexa-Home Node which then has two functions, turnOn and turnOff requests, which then feed into the function blocks triggering the TCP socket call to turn on and off the plugs.
 
