@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.3.0...v0.3.1) (2026-03-08)
+
+
+### Documentation
+
+* migrate to svgs rather than pngs ([9da2188](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/9da2188a83fabaf9dda14317dc5075d7c95af052))
+
 ## [0.3.0](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.2.2...v0.3.0) (2026-03-08)
 
 
