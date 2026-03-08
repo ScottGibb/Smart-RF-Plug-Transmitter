@@ -26,6 +26,7 @@ ENABLE_LINTERS:
   - DOCKERFILE_HADOLINT
   - BASH_SHELLCHECK
   - BASH_SHFMT
+  - DOCKERFILE_DCLINT
 
 # DISABLE:
 
@@ -45,3 +46,6 @@ MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .markdownlint.json
 
 JSON_JSONLINT_ARGUMENTS:
   - --comments
+
+PLUGINS:
+  - "https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-dclint/refs/heads/main/mega-linter-plugin-dclint/dclint.megalinter-descriptor.yml"
