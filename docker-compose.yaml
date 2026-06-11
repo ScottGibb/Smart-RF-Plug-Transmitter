@@ -10,6 +10,9 @@ services:
     environment:
       - TZ=Europe/London
       - TSMT_PIN_NUMBER= 13
+      - RF_TRANSPORT=tcp
+      - MQTT_HOST=localhost
+      - MQTT_PORT=1883
     #    devices:
     #      - "/dev/gpiomem:/dev/gpiomem"
     ports:

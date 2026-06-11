@@ -22,8 +22,17 @@ The system works using a Raspberry Pi as the central control system, which is ru
 The Alexa devices are connected over the network using any IP link. Everything should work as long as the devices are on the same network as the Raspberry Pi running Node-RED.
 
 - The Raspberry Pi is then connected to the 433MHz Transmitter module via the 5V, GND and Transmit pins.
-- The flows attached to this repo are then used to communicate with the SocketTransmitter via TCP. This then sends the - required bitstream signal to the script running inside Docker. Which then turns the plugs on and off through the 433MHz Transmitter.
+- The flows attached to this repo are then used to communicate with the SocketTransmitter via TCP or MQTT. This then sends the required bitstream signal to the script running inside Docker, which turns the plugs on and off through the 433MHz transmitter.
 - The system is built such that when the SocketTransmitter container is up and running, it never needs to be taken down.
+
+### Transport Configuration
+
+The SocketTransmitter supports runtime transport selection with environment variables:
+
+- `RF_TRANSPORT=tcp` (default) to receive `CODE:SHORT_DELAY:LONG_DELAY` packets over TCP
+- `RF_TRANSPORT=mqtt` to receive packets over MQTT (`MQTT_COMMAND_TOPIC`, default `smart-rf-plug/command`)
+
+When MQTT mode is enabled, the service also publishes Home Assistant auto-discovery topics for RF plugs A-D and listens for switch commands on `smart-rf-plug/+/set` by default.
 
 ## Node-RED Flows
 
