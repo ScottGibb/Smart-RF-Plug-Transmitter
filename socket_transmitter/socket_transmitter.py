@@ -12,7 +12,30 @@ import sys
 import time
 
 import paho.mqtt.client as mqtt
-from RPi import GPIO
+try:
+    from RPi import GPIO
+except ModuleNotFoundError:  # pragma: no cover - allows non-RPi development/testing
+    class _MockGPIO:
+        BOARD = 11
+        OUT = 1
+
+        @staticmethod
+        def setmode(_mode: int) -> None:
+            return
+
+        @staticmethod
+        def setup(_pin: int, _mode: int) -> None:
+            return
+
+        @staticmethod
+        def output(_pin: int, _value: int) -> None:
+            return
+
+        @staticmethod
+        def cleanup() -> None:
+            return
+
+    GPIO = _MockGPIO()
 
 from plug_codes.easy_on_easy_off_plugs import (
     A_OFF,
