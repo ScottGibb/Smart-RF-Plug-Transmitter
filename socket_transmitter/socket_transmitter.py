@@ -288,21 +288,25 @@ def build_parser() -> argparse.ArgumentParser:
         description="RF transmitter that receives commands over TCP or MQTT",
         epilog="This could be of more help"
     )
-    parser.add_argument("-p", "--port_number", default=DEFAULT_PORT_NUM, type=int, required=False, help="Port number")
-    parser.add_argument("-ip", "--ip_address", default=DEFAULT_IP_ADDRESS, type=str, required=False, help="IP address")
-    parser.add_argument("-pin", "--pin_number", default=DEFAULT_TRANSMIT_PIN, type=int, required=False, help="TF Transmitter Pin number")
+    parser.add_argument("-p", "--port_number", default=DEFAULT_PORT_NUM, type=int, help="Port number")
+    parser.add_argument("-ip", "--ip_address", default=DEFAULT_IP_ADDRESS, type=str, help="IP address")
+    parser.add_argument("-pin", "--pin_number", default=DEFAULT_TRANSMIT_PIN, type=int, help="RF Transmitter Pin number")
     parser.add_argument(
         "-t",
         "--transport",
         default=None,
         choices=["tcp", "mqtt"],
-        required=False,
         help="Transport to use. Defaults to RF_TRANSPORT environment variable.",
     )
     return parser
 
 
-def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, transmit_pin:int = DEFAULT_TRANSMIT_PIN, transport: str | None = None)-> None:
+def main(
+    ip_addr: str = DEFAULT_IP_ADDRESS,
+    port_num: int = DEFAULT_PORT_NUM,
+    transmit_pin: int = DEFAULT_TRANSMIT_PIN,
+    transport: str | None = None,
+) -> None:
     """
     The main application of the program
     """
@@ -314,7 +318,7 @@ def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, tra
     run_tcp_listener(ip_addr, port_num, transmit_pin)
 
 
-def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin:int) -> None:
+def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin: int) -> None:
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
