@@ -91,7 +91,11 @@ def get_mqtt_port() -> int:
     """
     Get mqtt port from environment.
     """
-    return int(os.getenv("MQTT_PORT", str(DEFAULT_MQTT_PORT)).strip())
+    try:
+        return int(os.getenv("MQTT_PORT", str(DEFAULT_MQTT_PORT)).strip())
+    except ValueError:
+        log.error("Invalid MQTT_PORT value provided. Falling back to default port 1883")
+        return DEFAULT_MQTT_PORT
 
 
 def get_mqtt_command_topic() -> str:
@@ -243,6 +247,8 @@ def run_mqtt_listener(transmit_pin: int) -> None:
     username = os.getenv("MQTT_USERNAME")
     password = os.getenv("MQTT_PASSWORD")
     if username:
+        if password is None:
+            log.warning("MQTT_USERNAME provided without MQTT_PASSWORD; attempting username-only auth")
         client.username_pw_set(username, password)
 
     def on_connect(
@@ -275,8 +281,13 @@ def run_mqtt_listener(transmit_pin: int) -> None:
 
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect(host, port)
-    client.loop_forever()
+    while True:
+        try:
+            client.connect(host, port)
+            client.loop_forever()
+        except (OSError, ValueError):
+            log.exception("MQTT connection loop failed. Retrying in 5 seconds")
+            time.sleep(5)
 
 
 def build_parser() -> argparse.ArgumentParser:

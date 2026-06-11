@@ -57,6 +57,10 @@ class SocketTransmitterTests(unittest.TestCase):
                 self.assertFalse(st.handle_ha_switch_command("smart-rf-plug/a/set", "UNKNOWN", 13))
                 mock_transmit.assert_not_called()
 
+    def test_get_mqtt_port_uses_default_for_invalid_value(self) -> None:
+        with patch.dict(os.environ, {"MQTT_PORT": "invalid"}, clear=False):
+            self.assertEqual(st.get_mqtt_port(), st.DEFAULT_MQTT_PORT)
+
 
 if __name__ == "__main__":
     unittest.main()
