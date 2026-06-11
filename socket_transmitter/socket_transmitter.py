@@ -64,6 +64,7 @@ DEFAULT_HA_DEVICE_ID = "smart_rf_plug_transmitter"
 NUM_ATTEMPTS = 10
 DEFAULT_TRANSMIT_PIN = 11
 RETRY_TIME = 0.001  # s
+MQTT_RECONNECT_DELAY = 5
 log = logging.getLogger('Transmitter Logger')
 HA_COMMAND_CODES = {
     "A": {"ON": A_ON, "OFF": A_OFF},
@@ -94,7 +95,7 @@ def get_mqtt_port() -> int:
     try:
         return int(os.getenv("MQTT_PORT", str(DEFAULT_MQTT_PORT)).strip())
     except ValueError:
-        log.error("Invalid MQTT_PORT value provided. Falling back to default port 1883")
+        log.error(f"Invalid MQTT_PORT value provided. Falling back to default port {DEFAULT_MQTT_PORT}")
         return DEFAULT_MQTT_PORT
 
 
@@ -286,8 +287,8 @@ def run_mqtt_listener(transmit_pin: int) -> None:
             client.connect(host, port)
             client.loop_forever()
         except (OSError, ValueError):
-            log.exception("MQTT connection loop failed. Retrying in 5 seconds")
-            time.sleep(5)
+            log.exception(f"MQTT connection loop failed. Retrying in {MQTT_RECONNECT_DELAY} seconds")
+            time.sleep(MQTT_RECONNECT_DELAY)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -299,8 +300,8 @@ def build_parser() -> argparse.ArgumentParser:
         description="RF transmitter that receives commands over TCP or MQTT",
         epilog="Use RF_TRANSPORT=tcp or RF_TRANSPORT=mqtt to select the runtime transport."
     )
-    parser.add_argument("-p", "--port_number", default=DEFAULT_PORT_NUM, type=int, help="Port number")
-    parser.add_argument("-ip", "--ip_address", default=DEFAULT_IP_ADDRESS, type=str, help="IP address")
+    parser.add_argument("-p", "--port_number", default=DEFAULT_PORT_NUM, type=int, help="TCP port number")
+    parser.add_argument("-ip", "--ip_address", default=DEFAULT_IP_ADDRESS, type=str, help="TCP IP address")
     parser.add_argument("-pin", "--pin_number", default=DEFAULT_TRANSMIT_PIN, type=int, help="RF Transmitter Pin number")
     parser.add_argument(
         "-t",
