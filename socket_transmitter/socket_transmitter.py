@@ -286,7 +286,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="RF Transmitter",
         description="RF transmitter that receives commands over TCP or MQTT",
-        epilog="This could be of more help"
+        epilog="Use RF_TRANSPORT=tcp or RF_TRANSPORT=mqtt to select the runtime transport."
     )
     parser.add_argument("-p", "--port_number", default=DEFAULT_PORT_NUM, type=int, help="Port number")
     parser.add_argument("-ip", "--ip_address", default=DEFAULT_IP_ADDRESS, type=str, help="IP address")
@@ -318,7 +318,7 @@ def main(
     run_tcp_listener(ip_addr, port_num, transmit_pin)
 
 
-def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin: int) -> None:
+def transmit_rf_code(code: str, short_delay: float, long_delay: float, transmit_pin: int) -> None:
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
@@ -332,18 +332,18 @@ def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin
         log.debug(f"Attempt: {t}")
         for i in code:
             if i == '1':
-                GPIO.output(trsmt_pin, 1)
+                GPIO.output(transmit_pin, 1)
                 time.sleep(short_delay)
-                GPIO.output(trsmt_pin, 0)
+                GPIO.output(transmit_pin, 0)
                 time.sleep(long_delay)
             elif i == '0':
-                GPIO.output(trsmt_pin, 1)
+                GPIO.output(transmit_pin, 1)
                 time.sleep(long_delay)
-                GPIO.output(trsmt_pin, 0)
+                GPIO.output(transmit_pin, 0)
                 time.sleep(short_delay)
             else:
                 log.critical(("Received invalid Code: %s", str(code)))
-        GPIO.output(trsmt_pin, 0)
+        GPIO.output(transmit_pin, 0)
         time.sleep(RETRY_TIME)
     time.sleep(0.5)
 
