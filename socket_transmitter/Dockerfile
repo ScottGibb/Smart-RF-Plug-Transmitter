@@ -10,6 +10,12 @@ ADD https://astral.sh/uv/install.sh /uv-installer.sh
 RUN sh /uv-installer.sh && rm /uv-installer.sh
 ENV PATH="/root/.local/bin:${PATH}"
 
+# Copy only the dependency manifests first so this layer
+# is cached and skipped unless pyproject.toml/uv.lock change
+COPY pyproject.toml uv.lock ./
+RUN uv sync --locked --no-install-project
+
+# Now copy the actual source and finish the install
 COPY . .
 RUN uv sync --locked
 

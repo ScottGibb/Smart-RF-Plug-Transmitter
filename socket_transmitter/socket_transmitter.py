@@ -1,6 +1,7 @@
 """
 Simple Radio Transmitter Script to control RF Plugs
 """
+
 import argparse
 import logging
 import socket
@@ -18,21 +19,46 @@ DEFAULT_PORT_NUM = 60000
 NUM_ATTEMPTS = 10
 DEFAULT_TRANSMIT_PIN = 11
 RETRY_TIME = 0.001  # s
-log = logging.getLogger('Transmitter Logger')
+log = logging.getLogger("Transmitter Logger")
 
 
 parser = argparse.ArgumentParser(
     prog="RF Transmitter",
     description="TCP RF Transmitter program, that transmits the byte sent over tcp via RF",
-    epilog="This could be of more help"
+    epilog="This could be of more help",
 )
-parser.add_argument("-p", "--port_number",default=DEFAULT_PORT_NUM, type=int, required=False, help="Port number")
-parser.add_argument("-ip", "--ip_address",default= DEFAULT_IP_ADDRESS,type=str, required=False, help="IP address")
-parser.add_argument("-pin", "--pin_number",default=DEFAULT_TRANSMIT_PIN, type=int, required=False, help="TF Transmitter Pin number")
+parser.add_argument(
+    "-p",
+    "--port_number",
+    default=DEFAULT_PORT_NUM,
+    type=int,
+    required=False,
+    help="Port number",
+)
+parser.add_argument(
+    "-ip",
+    "--ip_address",
+    default=DEFAULT_IP_ADDRESS,
+    type=str,
+    required=False,
+    help="IP address",
+)
+parser.add_argument(
+    "-pin",
+    "--pin_number",
+    default=DEFAULT_TRANSMIT_PIN,
+    type=int,
+    required=False,
+    help="TF Transmitter Pin number",
+)
 args = parser.parse_args()
 
 
-def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, transmit_pin:int = DEFAULT_TRANSMIT_PIN)-> None:
+def main(
+    ip_addr: str = DEFAULT_IP_ADDRESS,
+    port_num: int = DEFAULT_PORT_NUM,
+    transmit_pin: int = DEFAULT_TRANSMIT_PIN,
+) -> None:
     """
     The main application of the program
     """
@@ -57,23 +83,31 @@ def main(ip_addr: str = DEFAULT_IP_ADDRESS, port_num:int = DEFAULT_PORT_NUM, tra
                     message = sock_file.readline()
                     log.debug(message)
                     message = message.strip()
-                    strings = message.split(':')
+                    strings = message.split(":")
                     log.info("Decoding String")
                     try:
-                        transmit_rf_code(strings[0], float(strings[1]), float(strings[2]),transmit_pin)
+                        transmit_rf_code(
+                            strings[0],
+                            float(strings[1]),
+                            float(strings[2]),
+                            transmit_pin,
+                        )
                     except IndexError:
-                        logging.error("Received malformed data packet, abandoning socket")
+                        logging.error(
+                            "Received malformed data packet, abandoning socket"
+                        )
                         sock.shutdown(1)
                         sock.close()
                         break
-
 
         finally:
             sock.close()
             GPIO.cleanup()
 
 
-def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin:int) -> None:
+def transmit_rf_code(
+    code: str, short_delay: float, long_delay: float, trsmt_pin: int
+) -> None:
     """
     Using the parameters and the GPIO pin associated with TRANSMIT_PIN the GPIO pin is turned on and off representing
     the signal to be transmitted using the RF Module
@@ -83,24 +117,27 @@ def transmit_rf_code(code: str, short_delay: float, long_delay: float, trsmt_pin
     :param logging: the log object
     """
     log.info("Transmitting")
-    for t in range(NUM_ATTEMPTS):
-        log.debug(f"Attempt: {t}")
-        for i in code:
-            if i == '1':
-                GPIO.output(trsmt_pin, 1)
-                time.sleep(short_delay)
-                GPIO.output(trsmt_pin, 0)
-                time.sleep(long_delay)
-            elif i == '0':
-                GPIO.output(trsmt_pin, 1)
-                time.sleep(long_delay)
-                GPIO.output(trsmt_pin, 0)
-                time.sleep(short_delay)
-            else:
-                log.critical(("Received invalid Code: %s", str(code)))
-        GPIO.output(trsmt_pin, 0)
-        time.sleep(RETRY_TIME)
-    time.sleep(0.5)
+    for i in code:
+        if i == "1":
+            GPIO.output(trsmt_pin, 1)
+            _precise_sleep(short_delay)
+            GPIO.output(trsmt_pin, 0)
+            _precise_sleep(long_delay)
+        elif i == "0":
+            GPIO.output(trsmt_pin, 1)
+            _precise_sleep(long_delay)
+            GPIO.output(trsmt_pin, 0)
+            _precise_sleep(short_delay)
+        else:
+            log.critical(("Received invalid Code: %s", str(code)))
+    GPIO.output(trsmt_pin, 0)
+
+
+def _precise_sleep(delay):
+    chunk = delay / 100
+    end = time.time() + delay - chunk
+    while time.time() < end:
+        time.sleep(chunk)
 
 
 def setup_logging() -> None:
@@ -114,7 +151,7 @@ def setup_logging() -> None:
     log.addHandler(ch)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     setup_logging()
     log.info("RF Smart Transmitter Booting")
     log.info(f"Arguments Received:\n ,{args}")
