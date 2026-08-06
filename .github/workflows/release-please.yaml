@@ -41,7 +41,7 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Build image (arm/v7) and export as tar
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./socket_transmitter
           platforms: linux/arm/v7
