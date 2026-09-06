@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.4.0](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.3.1...v0.4.0) (2026-09-06)
+
+
+### Features
+
+* add continuous build and better timing mechanism ([e7edb1c](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/e7edb1cf1ff82ae1c9645ad3644e38c2afd5d418))
+
+
+### Bug Fixes
+
+* **ci:** Make Dependabot updates Monthly ([1fd3932](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/1fd393296773c84a369065c41a062267af4f1ee6))
+* **ci:** make the CI only build dockers on releases ([db8cd99](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/db8cd9940e8887cabb0e232e781e4ac82527daf0))
+
+
+### Reverts
+
+* python sleep statement change ([a05f91c](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/commit/a05f91c2cab00f95f4c47166f8c3d7809031a4ba))
+
 ## [0.3.1](https://github.com/ScottGibb/Smart-RF-Plug-Transmitter/compare/v0.3.0...v0.3.1) (2026-03-08)
 
 
